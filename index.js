@@ -8,7 +8,11 @@ const getIds = async (url) => {
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-  const ids = await page.evaluate(() => [...document.querySelectorAll('.programme__titles a')].map((a) => a.href.split('/').pop()));
+  const ids = await page.evaluate(() => {
+    const nodes = [...document.querySelectorAll('.programme__titles a')];
+    const links = nodes.map((link) => link.href.split('/').pop());
+    return links;
+  });
 
   await browser.close();
   return ids;
