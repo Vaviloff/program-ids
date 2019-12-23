@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const puppeteer = require('puppeteer');
 const path = require('path');
-const { process } = require('../lib/scrape');
+const Scraper = require('../lib/scrape');
 
 const pagePath = path.join('file:///', __dirname, 'page.html');
 
@@ -25,9 +25,11 @@ describe('it should get IDs', async function testExample() {
   this.timeout(30000);
 
   let page;
+  let scraper;
 
   before(async () => {
     page = await global.browser.newPage();
+    scraper = new Scraper(page);
     await page.setViewport({ width: 1366, height: 786 });
   });
 
@@ -36,7 +38,7 @@ describe('it should get IDs', async function testExample() {
   });
 
   it('gets the IDs', async () => {
-    const { ids, next } = await process(page, pagePath);
+    const { ids, next } = await scraper.process(pagePath);
     console.log(ids);
     expect(ids).to.include.members(['3', '2', '1']);
     expect(next).to.equal(false);
