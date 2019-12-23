@@ -1,6 +1,3 @@
-const puppeteer = require('puppeteer');
-const Scraper = require('./lib/scrape.js');
-
 const argv = require('yargs') // eslint-disable-line
   .option('url', {
     alias: 'u',
@@ -15,6 +12,10 @@ const argv = require('yargs') // eslint-disable-line
   .help()
   .alias('help', 'h').argv;
 
+const Scraper = require('./lib/scrape.js');
+
+const browser = require('./lib/browser.js');
+
 if (!argv.url) {
   throw Error('URL of the program cannot be empty');
 }
@@ -24,18 +25,13 @@ if (!argv.proxy) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-
   let pageUrl = argv.url;
 
   if (!pageUrl.includes('/episodes/player')) {
     pageUrl += '/episodes/player';
   }
 
-  const page = await browser.newPage();
-  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36');
+  const page = await browser.createPage();
 
   const scraper = new Scraper(page);
   await scraper.scrape(pageUrl);
