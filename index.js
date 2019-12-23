@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { scrape } = require('./lib/scrape.js');
+const Scraper = require('./lib/scrape.js');
 
 const argv = require('yargs') // eslint-disable-line
   .option('url', {
@@ -37,7 +37,8 @@ if (!argv.proxy) {
   const page = await browser.newPage();
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36');
 
-  await scrape(page, pageUrl);
+  const scraper = new Scraper(page);
+  await scraper.scrape(pageUrl);
 
   await browser.close();
 })();
