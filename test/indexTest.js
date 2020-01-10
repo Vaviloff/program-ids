@@ -22,25 +22,28 @@ after(async () => {
 });
 
 describe('it should get IDs', async function testExample() {
-  this.timeout(30000);
+  this.timeout(10000);
 
   let page;
   let scraper;
+  const proxy = 'proxy:port';
 
   before(async () => {
     page = await global.browser.newPage();
-    scraper = new Scraper(page);
+    scraper = new Scraper(page, { proxy });
     await page.setViewport({ width: 1366, height: 786 });
   });
 
   after(async () => {
+    scraper = null;
     await page.close();
   });
 
   it('gets the IDs', async () => {
-    const { ids, next } = await scraper.process(pagePath);
+    const { ids, next, title } = await scraper.process(pagePath);
     console.log(ids);
     expect(ids).to.include.members(['3', '2', '1']);
     expect(next).to.equal(false);
+    expect(title).to.equal('Program title');
   });
 });
