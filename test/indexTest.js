@@ -9,7 +9,7 @@ const opts = {
   headless: true,
   slowMo: 100,
   timeout: 0,
-  args: ['--start-maximized', '--window-size=1366,786'],
+  args: ['--start-maximized', '--window-size=1366,786', '--no-sandbox'],
 };
 
 before(async () => {
