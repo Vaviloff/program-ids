@@ -23,7 +23,7 @@ if (!argv.url) {
 }
 
 if (!argv.proxy) {
-  throw Error('Proxy is necessary');
+  argv.proxy = null;
 }
 
 (async () => {
