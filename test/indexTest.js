@@ -6,7 +6,7 @@ const Scraper = require('../lib/scrape');
 const pagePath = path.join('file:///', __dirname, 'page.html');
 
 const opts = {
-  headless: false,
+  headless: true,
   slowMo: 100,
   timeout: 0,
   args: ['--start-maximized', '--window-size=1366,786'],
