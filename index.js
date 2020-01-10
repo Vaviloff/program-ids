@@ -16,6 +16,8 @@ const Scraper = require('./lib/scrape.js');
 
 const browser = require('./lib/browser.js');
 
+const consumer = require('./lib/consumer.js');
+
 if (!argv.url) {
   throw Error('URL of the program cannot be empty');
 }
@@ -26,6 +28,9 @@ if (!argv.proxy) {
 
 (async () => {
   let pageUrl = argv.url;
+  const { proxy } = argv;
+
+  consumer.run({ proxy });
 
   if (!pageUrl.includes('/episodes/player')) {
     pageUrl += '/episodes/player';
@@ -33,7 +38,7 @@ if (!argv.proxy) {
 
   const page = await browser.createPage();
 
-  const scraper = new Scraper(page);
+  const scraper = new Scraper(page, { proxy });
   await scraper.scrape(pageUrl);
 
   await browser.close();
