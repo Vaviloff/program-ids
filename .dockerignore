@@ -1,0 +1,5 @@
+.git
+.eslintrc.js
+*Dockerfile*
+*docker-compose*
+node_modules
