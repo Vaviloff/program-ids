@@ -7,13 +7,48 @@ platform:
   arch: amd64
  
 steps:
-- name: queue-redis
+- name: redis
   image: redis
   detach: true
+
+- name: minio
+  image: minio/minio
+  environment:
+    MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+    MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+  detach: true
+
+- name: mc
+  image: minio/mc
+  commands: >
+      /bin/sh -c "
+      /usr/bin/mc config host rm local;
+      /usr/bin/mc config host add --quiet --api s3v4 local http://minio:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
+      /usr/bin/mc mb --quiet local/screenshots/;
+      /usr/bin/mc policy set download local/screenshots;
+      "
+
+- name: postgres
+  image: bitnami/postgresql:12.3.0
+  environment:
+    - POSTGRESQL_USERNAME=$POSTGRESQL_USERNAME
+    - POSTGRESQL_PASSWORD=$POSTGRESQL_PASSWORD
+    - POSTGRESQL_DATABASE=$POSTGRESQL_DB_NAME
+  detach: true
+
+- name: rabbitmq
+  image: rabbitmq:3-management-alpine
+  environment:
+    RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+    RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+  detach: true
+
 - name: testing
   image: automatio/xvfb:14.16.1-buster-slim
+
   environment:
-    REDIS_HOST: redis://queue-redis:6379
+    REDIS_HOST: redis://redis:6379
+
   commands:
   - npm install
   - npm run test
