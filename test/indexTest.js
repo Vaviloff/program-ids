@@ -1,3 +1,4 @@
+const { log } = console;
 const { expect } = require('chai');
 const puppeteer = require('puppeteer');
 const path = require('path');
@@ -42,7 +43,7 @@ describe('it should get IDs', async function testExample() {
 
   it('gets the IDs', async () => {
     const { ids, next, title } = await scraper.process(pagePath);
-    console.log(ids);
+    log(ids);
     expect(ids).to.include.members(['3', '2', '1']);
     expect(next).to.equal(false);
     expect(title).to.equal('Program title');
