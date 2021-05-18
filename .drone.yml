@@ -11,7 +11,7 @@ steps:
   image: redis
   detach: true
 - name: testing
-  image: node
+  image: automatio/xvfb:14.16.1-buster-slim
   environment:
     REDIS_HOST: redis://queue-redis:6379
   commands:
