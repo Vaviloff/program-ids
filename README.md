@@ -31,3 +31,5 @@ or
 * Array of IDs as strings.
 
 [![CircleCI](https://circleci.com/gh/Vaviloff/program-ids.svg?style=shield)](https://circleci.com/gh/Vaviloff/program-ids)
+
+[![Build Status](https://bbf05d1a5726.ngrok.io/api/badges/Vaviloff/program-ids/status.svg)](https://bbf05d1a5726.ngrok.io/Vaviloff/program-ids)
