@@ -16,7 +16,7 @@
   "description": "Get IDs of radio programs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit || true",
+    "test": "mocha --exit",
     "lint": "eslint . || true"
   },
   "repository": {
