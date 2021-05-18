@@ -27,10 +27,11 @@ describe('it should get IDs', async function testExample() {
   let page;
   let scraper;
   const proxy = 'proxy:port';
+  const redis = process.env.REDIS_HOST || 'redis://127.0.0.1:6379';
 
   before(async () => {
     page = await global.browser.newPage();
-    scraper = new Scraper(page, { proxy });
+    scraper = new Scraper(page, { proxy, redis });
     await page.setViewport({ width: 1366, height: 786 });
   });
 

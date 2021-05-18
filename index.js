@@ -28,17 +28,17 @@ if (!argv.proxy) {
 
 (async () => {
   let pageUrl = argv.url;
-  const { proxy } = argv;
+  const { proxy, redis } = argv;
+  const redisHost = redis || process.env.REDIS_HOST || 'redis://127.0.0.1:6379';
 
-  consumer.run({ proxy });
+  consumer.run({ proxy, redis: redisHost });
 
   if (!pageUrl.includes('/episodes/player')) {
     pageUrl += '/episodes/player';
   }
 
   const page = await browser.createPage();
-
-  const scraper = new Scraper(page, { proxy });
+  const scraper = new Scraper(page, { proxy, redis: redisHost });
   await scraper.scrape(pageUrl);
 
   await browser.close();
