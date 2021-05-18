@@ -1,0 +1,33 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+ 
+steps:
+- name: queue-redis
+  image: redis
+  detach: true
+
+- name: testing
+  image: node
+  environment:
+    REDIS_HOST: redis://queue-redis:6379
+  commands:
+  - npm install
+  - npm run test
+
+# services:
+# - name: queue-redis
+#   image: redis  
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+  - pull_request
+  
