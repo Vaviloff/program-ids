@@ -56,10 +56,8 @@ steps:
   - npm run test
 
 trigger:
-  branch:
-  - master
+  ref:
+  - refs/heads/master
   event:
-  - push
-  - pull_request
   - custom
   
