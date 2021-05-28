@@ -57,8 +57,7 @@ steps:
 
 trigger:
   branch:
-    include:
-    - master
+  - master
   event:
   - custom
   
